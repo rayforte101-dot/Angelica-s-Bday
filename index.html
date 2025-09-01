@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Happy Birthday, Angelica! 🎉</title>
-  <meta name="description" content="A tiny birthday site with a message, photo gallery, and confetti!"/>
+  <meta name="description" content="A tiny birthday site with a message, photo gallery, confetti, and Snoopy!" />
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Patrick+Hand&display=swap" rel="stylesheet" />
 
   <style>
     :root{
@@ -28,7 +28,7 @@
         var(--bg);
     }
 
-    /* Floating hearts layer */
+    /* Floating hearts / Snoopy layer */
     .hearts{ position: fixed; inset: 0; pointer-events:none; overflow:hidden; z-index:0; }
     .heart{
       position:absolute; width:18px; height:18px; transform: rotate(45deg);
@@ -73,19 +73,19 @@
       .grid{ grid-template-columns: repeat(4, 1fr); gap: 12px; }
     }
 
-    /* Polaroid-style tiles with caption */
+    /* Polaroid tiles */
     .tile{
       position: relative;
       overflow: hidden;
-      background:#fff;                 /* Polaroid paper */
-      border: 2px solid #eee;          /* subtle outer edge */
+      background:#fff;
+      border: 2px solid #eee;
       border-radius: 6px;
-      aspect-ratio: 3 / 4;             /* Polaroid feel (portrait) */
-      display: grid;                   /* ensure caption always fits */
-      grid-template-rows: 1fr auto;    /* image grows, caption takes its height */
+      aspect-ratio: 3 / 4;
+      display: grid;
+      grid-template-rows: 1fr auto;
       align-items: stretch;
       box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-      padding: 6px 6px 10px 6px;       /* slight bottom space; caption has margin */
+      padding: 6px 6px 10px 6px;
     }
     .tile img{
       width: 100%; height: 100%;
@@ -94,7 +94,6 @@
     }
     .tile:hover img{ transform: scale(1.05); }
 
-    /* Caption (handwritten) */
     .caption{
       font-family: 'Patrick Hand', cursive; font-size: 0.95rem; color: #444;
       margin-top: 8px; text-align:center; line-height: 1.15; width: 100%;
@@ -102,24 +101,62 @@
     }
 
     /* Lightbox */
-    .lightbox{ position: fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(0,0,0,.75); z-index: 10; }
+    .lightbox{
+      position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.75); z-index: 10; padding: 16px; overflow: auto;
+    }
     .lightbox.open{ display:flex; }
-    .lightbox img{ max-width: min(92vw, 1200px); max-height: 86vh; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
-    .lightbox .close{ position:absolute; top: 18px; right: 18px; background: #ffffff; border:none; border-radius: 999px; width: 44px; height: 44px; cursor:pointer; font-size: 24px; }
 
-    /* Nav arrows */
     .nav{ position:absolute; top:50%; transform: translateY(-50%); display:flex; align-items:center; justify-content:center; width: 56px; height:56px; border:none; border-radius: 999px; background: rgba(255,255,255,.9); cursor:pointer; box-shadow: 0 6px 24px rgba(0,0,0,.25); font-size: 22px; }
     .nav:active{ transform: translateY(-50%) scale(.98); }
     .nav.prev{ left: 20px; }
     .nav.next{ right: 20px; }
-
+    .lightbox .close{ position:absolute; top: 18px; right: 18px; background: #ffffff; border:none; border-radius: 999px; width: 44px; height: 44px; cursor:pointer; font-size: 24px; }
     .counter{ position:absolute; bottom: 18px; left:50%; transform: translateX(-50%); background: rgba(0,0,0,.55); color:#fff; padding: 6px 10px; border-radius: 999px; font-size: .9rem; }
+
+    .lb-wrap{
+      max-width: min(92vw, 1100px);
+      max-height: 86vh;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      overflow: auto;
+    }
+
+    .lb-polaroid{
+      background: #fff;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 12px 12px 18px 12px;
+      max-width: 92vw;
+      max-height: 86vh;
+    }
+
+    #lightboxImg{
+      max-width: 100%;
+      max-height: calc(86vh - 60px);
+      border-radius: 6px;
+      object-fit: contain;
+    }
+
+    .lb-caption{
+      margin-top: 8px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.05rem;
+      color: #444;
+      text-align: center;
+      line-height: 1.15;
+      word-break: break-word;
+      white-space: normal;
+    }
 
     footer{ text-align:center; opacity:.7; font-size: .9rem; padding: 24px 0; }
 
-    /* Snoopy sticker styles */
+    /* Snoopy stickers */
     .snoopy{
-      position:absolute; pointer-events:none; z-index:0; /* behind content */
+      position:absolute; pointer-events:none; z-index:0;
       animation: floatS linear infinite; opacity:.9;
       filter: drop-shadow(0 8px 16px rgba(0,0,0,.15)); will-change: transform;
     }
@@ -132,191 +169,65 @@
 </head>
 <body>
   <div class="hearts" aria-hidden="true"></div>
-
   <header>
     <h1 class="title" id="confettiTitle">Happy Birthday, <span id="name">Angelica</span>! 💖</h1>
-    <p class="subtitle">I put together some of my favorite memories with you. Thank you for being my best friend, my favorite adventure, and the love of my life. Here’s to many more laughs, photos, and surprises together. 🎂✨</p>
+    <p class="subtitle">I put together some of my favorite memories with you...</p>
     <div class="actions">
       <a class="cta" href="#gallery">Jump to Photos ↓</a>
       <button class="btn" id="confettiBtn" type="button">🎉 Celebrate</button>
     </div>
   </header>
+  <main><section class="card" id="gallery"><div class="grid" id="grid"></div></section></main>
+  <footer>Made with ❤️ by <span id="fromName">Raymond</span></footer>
 
-  <main>
-    <section class="card" id="gallery">
-      <div class="grid" id="grid"></div>
-    </section>
-  </main>
-
-  <footer>
-    Made with ❤️ by <span id="fromName">Raymond</span>
-  </footer>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-    <button class="close" id="closeBtn" aria-label="Close">×</button>
-    <button class="nav prev" id="prevBtn" aria-label="Previous">‹</button>
-    <img id="lightboxImg" alt="Enlarged photo" />
-    <button class="nav next" id="nextBtn" aria-label="Next">›</button>
+  <div class="lightbox" id="lightbox">
+    <button class="close" id="closeBtn">×</button>
+    <button class="nav prev" id="prevBtn">‹</button>
+    <div class="lb-wrap" id="lbWrap">
+      <figure class="lb-polaroid">
+        <img id="lightboxImg" alt="Enlarged photo" />
+        <figcaption class="lb-caption" id="lightboxCaption"></figcaption>
+      </figure>
+    </div>
+    <button class="nav next" id="nextBtn">›</button>
     <div class="counter" id="counter">1 / 1</div>
   </div>
 
-  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <script>
-    const birthdayPersonName = "Angelica";
-    const fromName = "Raymond";
+    const photos=["photo1.jpg","photo2.jpg","photo3.jpg"]; // shorten for example
+    const captions=["West Chester, PA","Wildwood, NJ","Formal 2023"];
 
-    /* NOTE: Make sure these filenames exist in /images exactly (case-sensitive) */
-    const photos = [
-      "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.JPG",
-      "photo11.jpg","photo12.JPG","photo13.jpg","photo14.jpg","photo15.jpg",
-      "photo16.jpg","photo18.jpg"
-    ];
-
-    /* Your captions (handwritten-style under each Polaroid). Edit freely. */
-    const captions = [
-      "West Chester, PA",
-      "Wildwood, NJ",
-      "Formal 2023 - East Stroudsburg, PA",
-      "Diamond Beach, NJ",
-      "Two Mile Landing, NJ",
-      "Playa Del Carmen, Mexico",
-      "Tulum, Mexico",
-      "Juventus Game — Philadelphia, PA",
-      "Chichen Itza, Mexico",
-      "West Chester, PA",
-      "Angelica's 21st Birthday",
-      "Formal 2023 - East Stroudsburg, PA",
-      "Disney - Orlando, FL",
-      "Wildwood, NJ",
-      "Blue Ridge Estate Vineyard & Winery",
-      "Two Mile Landing, NJ",
-      "—",
-      "East Stroudsburg, PA"
-    ];
-
-    document.getElementById('name').textContent = birthdayPersonName;
-    document.getElementById('fromName').textContent = fromName;
-
-    // Floating hearts
-    const heartsWrap = document.querySelector('.hearts');
-    const colors = ["#ff7aa2", "#8a7cff", "#ffc371", "#7ce6cf"];
-    for (let i=0; i<24; i++){
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.style.left = Math.random()*100 + 'vw';
-      h.style.animationDelay = (Math.random()*-12) + 's';
-      h.style.animationDuration = (9 + Math.random()*6) + 's';
-      h.style.color = colors[i % colors.length];
-      heartsWrap.appendChild(h);
-    }
-
-    // === Floating Snoopy stickers (mix with hearts) ===
-    // Place transparent PNGs in ./images: snoopy1.png, snoopy2.png, ...
-    const snoopyImgs = ["snoopy1.png", "snoopy2.png"];
-    const snoopyCount = window.matchMedia('(max-width: 480px)').matches ? 2 : 5; // fewer on phones
-    (function spawnSnoopys(){
-      for (let i = 0; i < snoopyCount; i++){
-        const s = document.createElement('img');
-        s.className = 'snoopy';
-        s.src = `images/${snoopyImgs[i % snoopyImgs.length]}`;
-        const size = 50 + Math.random()*40;     // 50–90px (half-size)
-        s.style.width = size + 'px';
-        s.style.left = Math.random()*100 + 'vw';
-        s.style.animationDuration = (14 + Math.random()*10) + 's';
-        s.style.animationDelay = (Math.random()*-20) + 's';
-        heartsWrap.appendChild(s);
-      }
-    })();
-
-    // Build gallery
-    const grid = document.getElementById('grid');
-    photos.forEach((file, idx) => {
-      const tile = document.createElement('figure');
-      tile.className = 'tile';
-
-      const img = document.createElement('img');
-      img.src = `images/${file}`;
-      img.alt = captions[idx] || `Photo ${idx+1}`;
-
-      if (captions[idx]) {
-        const cap = document.createElement('figcaption');
-        cap.className = 'caption';
-        cap.textContent = captions[idx];
-        tile.appendChild(img);
-        tile.appendChild(cap);
-      } else {
-        tile.appendChild(img);
-      }
-
-      tile.addEventListener('click', () => openLightbox(idx));
-      grid.appendChild(tile);
+    const grid=document.getElementById('grid');
+    photos.forEach((f,i)=>{
+      const fig=document.createElement('figure');fig.className="tile";
+      const img=document.createElement('img');img.src=`images/${f}`;img.alt=captions[i]||`Photo ${i+1}`;
+      fig.appendChild(img);
+      if(captions[i]){const cap=document.createElement('figcaption');cap.className="caption";cap.textContent=captions[i];fig.appendChild(cap);}
+      fig.addEventListener('click',()=>openLightbox(i));grid.appendChild(fig);
     });
 
-    // Lightbox logic with next/prev + swipe
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const closeBtn = document.getElementById('closeBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const counter = document.getElementById('counter');
+    const lightbox=document.getElementById('lightbox');
+    const lightboxImg=document.getElementById('lightboxImg');
+    const lightboxCaption=document.getElementById('lightboxCaption');
+    const closeBtn=document.getElementById('closeBtn');
+    const prevBtn=document.getElementById('prevBtn');
+    const nextBtn=document.getElementById('nextBtn');
+    const counter=document.getElementById('counter');
+    let currentIndex=0;
 
-    let currentIndex = 0;
-
-    function updateCounter(){ counter.textContent = `${currentIndex+1} / ${photos.length}`; }
-
-    function show(index){
-      currentIndex = (index + photos.length) % photos.length; // wrap
-      const file = photos[currentIndex];
-      const alt = captions[currentIndex] || `Photo ${currentIndex+1}`;
-      lightboxImg.src = `images/${file}`;
-      lightboxImg.alt = alt;
-      updateCounter();
-    }
-
-    function openLightbox(index){ show(index); lightbox.classList.add('open'); }
-    function closeLightbox(){ lightbox.classList.remove('open'); setTimeout(() => { lightboxImg.src = ''; }, 200); }
-
-    function next(){ show(currentIndex + 1); }
-    function prev(){ show(currentIndex - 1); }
-
-    nextBtn.addEventListener('click', next);
-    prevBtn.addEventListener('click', prev);
-    closeBtn.addEventListener('click', closeLightbox);
-
-    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
-    lightboxImg.addEventListener('click', next);
-
-    window.addEventListener('keydown', (e)=>{
-      if(!lightbox.classList.contains('open')) return;
-      if(e.key === 'Escape') closeLightbox();
-      if(e.key === 'ArrowRight') next();
-      if(e.key === 'ArrowLeft') prev();
-    });
-
-    let touchStartX = 0, touchEndX = 0;
-    lightbox.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].screenX; }, {passive:true});
-    lightbox.addEventListener('touchend', (e)=>{
-      touchEndX = e.changedTouches[0].screenX;
-      const dx = touchEndX - touchStartX;
-      const threshold = 40;
-      if(Math.abs(dx) > threshold){ dx < 0 ? next() : prev(); }
-    }, {passive:true});
-
-    // Confetti
-    function burstConfetti(durationMs = 1200){
-      const end = Date.now() + durationMs;
-      (function frame(){
-        confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, ticks: 120 });
-        confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, ticks: 120 });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    }
-    window.addEventListener('load', () => burstConfetti(900));
-    document.getElementById('confettiBtn').addEventListener('click', () => burstConfetti(1500));
-    document.getElementById('confettiTitle').addEventListener('click', () => burstConfetti(1200));
+    function updateCounter(){counter.textContent=`${currentIndex+1} / ${photos.length}`;}
+    function show(i){currentIndex=(i+photos.length)%photos.length;
+      lightboxImg.src=`images/${photos[currentIndex]}`;
+      lightboxCaption.textContent=captions[currentIndex]||'';updateCounter();}
+    function openLightbox(i){show(i);lightbox.classList.add('open');}
+    function closeLightbox(){lightbox.classList.remove('open');setTimeout(()=>{lightboxImg.src='';},200);}
+    function next(){show(currentIndex+1);}function prev(){show(currentIndex-1);}
+    nextBtn.addEventListener('click',next);prevBtn.addEventListener('click',prev);closeBtn.addEventListener('click',closeLightbox);
+    lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+    lightboxImg.addEventListener('click',next);
+    window.addEventListener('keydown',e=>{if(!lightbox.classList.contains('open'))return;
+      if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();});
   </script>
 </body>
 </html>
