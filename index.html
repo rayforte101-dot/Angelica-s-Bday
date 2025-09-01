@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Happy Birthday, Angelica! 🎉</title>
-  <meta name="description" content="A tiny birthday site with a message and photo gallery."/>
+  <meta name="description" content="A tiny birthday site with a message, photo gallery, and confetti!"/>
 
-  <!-- Google Font (optional) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -18,130 +18,31 @@
       --accent-2: #8a7cff;
     }
     *{ box-sizing: border-box; }
-    html, body{ margin:0; padding:0; font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; color: var(--ink); background: radial-gradient(1200px 800px at 10% -10%, #ffe3ef 0%, rgba(255,227,239,0) 60%),
-                radial-gradient(1000px 600px at 110% 10%, #e8e6ff 0%, rgba(232,230,255,0) 60%), var(--bg); }
+    html, body{
+      margin:0; padding:0;
+      font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #ffe3ef 0%, rgba(255,227,239,0) 60%),
+        radial-gradient(1000px 600px at 110% 10%, #e8e6ff 0%, rgba(232,230,255,0) 60%),
+        var(--bg);
+    }
 
+    /* Floating hearts layer */
     .hearts{ position: fixed; inset: 0; pointer-events:none; overflow:hidden; z-index:0; }
-    .heart{ position:absolute; width:18px; height:18px; transform: rotate(45deg); animation: float 12s linear infinite; opacity:0.25; }
-    .heart::before, .heart::after{ content:""; position:absolute; width:18px; height:18px; background: currentColor; border-radius:50%; }
-    .heart{ background: currentColor; }
+    .heart{
+      position:absolute; width:18px; height:18px; transform: rotate(45deg);
+      animation: float 12s linear infinite; opacity:0.25; background: currentColor;
+    }
+    .heart::before, .heart::after{
+      content:""; position:absolute; width:18px; height:18px; background: currentColor; border-radius:50%;
+    }
     .heart::before{ left:-9px; }
     .heart::after{ top:-9px; }
-    @keyframes float{ 0%{ transform: translateY(110vh) rotate(45deg); } 100%{ transform: translateY(-10vh) rotate(45deg); } }
-
-    header{
-      position: relative;
-      z-index: 1;
-      padding: 48px 20px 16px; text-align:center;
-    }
-    .title{ font-weight:800; font-size: clamp(2rem, 4vw + 1rem, 3.25rem); margin: 0; }
-    .subtitle{ margin:12px auto 0; max-width: 780px; line-height:1.6; font-size: clamp(1rem, 1.2vw + .8rem, 1.2rem); }
-
-    .cta{
-      display:inline-flex; align-items:center; gap:.6rem; margin-top: 18px; padding: .8rem 1rem;
-      border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color:white; text-decoration:none; font-weight:600;
-      box-shadow: 0 10px 30px rgba(255,122,162,.25);
+    @keyframes float{
+      0%{ transform: translateY(110vh) rotate(45deg); }
+      100%{ transform: translateY(-10vh) rotate(45deg); }
     }
 
-    main{ position: relative; z-index: 1; padding: 12px 20px 64px; }
-
-    .card{
-      max-width: 1100px; margin: 0 auto; background: var(--card); border-radius: 24px; padding: 22px; box-shadow: 0 10px 30px rgba(34, 16, 64, 0.08);
-    }
-
-    .grid{ display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
-    @media (min-width: 720px){ .grid{ grid-template-columns: repeat(3, 1fr);} }
-    @media (min-width: 1040px){ .grid{ grid-template-columns: repeat(4, 1fr);} }
-
-    .tile{ position:relative; overflow:hidden; border-radius: 16px; background:#f4f1ff; aspect-ratio: 1/1; display:flex; align-items:center; justify-content:center; }
-    .tile img{ width:100%; height:100%; object-fit: cover; transition: transform .5s ease; display:block; }
-    .tile:hover img{ transform: scale(1.05); }
-
-    .lightbox{ position: fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(0,0,0,.65); z-index: 10; }
-    .lightbox.open{ display:flex; }
-    .lightbox img{ max-width: min(92vw, 1200px); max-height: 86vh; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
-    .lightbox .close{ position:absolute; top: 18px; right: 18px; background: #ffffff; border:none; border-radius: 999px; width: 44px; height: 44px; cursor:pointer; font-size: 24px; }
-
-    footer{ text-align:center; opacity:.7; font-size: .9rem; padding: 24px 0; }
-  </style>
-</head>
-<body>
-  <div class="hearts" aria-hidden="true"></div>
-
-  <header>
-    <h1 class="title">Happy Birthday, <span id="name">Angelica</span>! 💖</h1>
-    <p class="subtitle">I put together some of my favorite memories with you. Thank you for being my best friend, my favorite adventure, and the love of my life. Here’s to many more laughs, photos, and surprises together. 🎂✨</p>
-    <a class="cta" href="#gallery">Jump to Photos ↓</a>
-  </header>
-
-  <main>
-    <section class="card" id="gallery">
-      <div class="grid" id="grid"></div>
-    </section>
-  </main>
-
-  <footer>
-    Made with ❤️ by <span id="fromName">Raymond</span>
-  </footer>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-    <button class="close" id="closeBtn" aria-label="Close">×</button>
-    <img id="lightboxImg" alt="Enlarged photo" />
-  </div>
-
-  <script>
-    const birthdayPersonName = "Angelica";
-    const fromName = "Raymond";
-
-    const photos = [
-      "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
-      "photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg",
-      "photo16.jpg","photo17.jpg","photo18.jpg"
-    ];
-    const captions = new Array(18).fill("");
-
-    document.getElementById('name').textContent = birthdayPersonName;
-    document.getElementById('fromName').textContent = fromName;
-
-    const heartsWrap = document.querySelector('.hearts');
-    const colors = ["#ff7aa2", "#8a7cff", "#ffc371", "#7ce6cf"];
-    for (let i=0; i<24; i++){
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.style.left = Math.random()*100 + 'vw';
-      h.style.animationDelay = (Math.random()*-12) + 's';
-      h.style.animationDuration = (9 + Math.random()*6) + 's';
-      h.style.color = colors[i % colors.length];
-      heartsWrap.appendChild(h);
-    }
-
-    const grid = document.getElementById('grid');
-    photos.forEach((file, idx) => {
-      const tile = document.createElement('figure');
-      tile.className = 'tile';
-      const img = document.createElement('img');
-      img.src = `images/${file}`;
-      img.alt = captions[idx] || `Photo ${idx+1}`;
-      tile.appendChild(img);
-      tile.addEventListener('click', () => openLightbox(img.src, img.alt));
-      grid.appendChild(tile);
-    });
-
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const closeBtn = document.getElementById('closeBtn');
-
-    function openLightbox(src, alt){
-      lightboxImg.src = src; lightboxImg.alt = alt; lightbox.classList.add('open');
-    }
-    function closeLightbox(){
-      lightbox.classList.remove('open');
-      setTimeout(() => { lightboxImg.src = ''; }, 200);
-    }
-    closeBtn.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
-    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
-  </script>
-</body>
-</html>
+    header{ position: relative; z-index: 1; padding: 48px 20px 16px; text-align:center; }
+    .title{ font-weight:800; font-size: clamp(2rem, 4vw + 1rem,
